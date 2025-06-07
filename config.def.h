@@ -16,6 +16,7 @@ static const float fullscreen_bg[]         = {0.1f, 0.1f, 0.1f, 1.0f}; /* You ca
 
 /* tagging - TAGCOUNT must be no greater than 31 */
 #define TAGCOUNT (9)
+static int tag_layout[TAGCOUNT] = {0, 0, 0, 0, 0, 0, 0, 0, 0}; /* Modify as needed to match TAGCOUNT */
 
 /* logging */
 static int log_level = WLR_ERROR;
