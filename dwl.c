@@ -1078,10 +1078,17 @@ createmon(struct wl_listener *listener, void *data)
 		m->pertag->nmasters[i] = m->nmaster;
 		m->pertag->mfacts[i] = m->mfact;
 
-		m->pertag->ltidxs[i][0] = m->lt[0];
+		if (i != 0)
+			m->pertag->ltidxs[i][0] = &layouts[tag_layout[i-1]];
+		else
+			m->pertag->ltidxs[i][0] = m->lt[0];
 		m->pertag->ltidxs[i][1] = m->lt[1];
 		m->pertag->sellts[i] = m->sellt;
 	}
+
+	m->lt[0] = m->pertag->ltidxs[1][0];
+	m->lt[1] = m->pertag->ltidxs[1][1];
+	strncpy(m->ltsymbol, m->pertag->ltidxs[1][0]->symbol, LENGTH(m->ltsymbol));
 
 	/* The xdg-protocol specifies:
 	 *
