@@ -2,22 +2,21 @@
 #define COLOR(hex)    { ((hex >> 24) & 0xFF) / 255.0f, \
                         ((hex >> 16) & 0xFF) / 255.0f, \
                         ((hex >> 8) & 0xFF) / 255.0f, \
-                        (hex & 0xFF) / 255.0f }
-/* appearance */
+                        (hex & 0xFF) / 255.0f } /* appearance */
 static const int sloppyfocus               = 1;  /* focus follows mouse */
 static const int bypass_surface_visibility = 0;  /* 1 means idle inhibitors will disable idle tracking even if it's surface isn't visible  */
 static const int smartborders		   = 1;
 static const unsigned int borderpx         = 2;  /* border pixel of windows */
 static const float rootcolor[]             = COLOR(0x222222ff);
 static const float bordercolor[]           = COLOR(0x444444ff);
-static const float focuscolor[]            = COLOR(0x376f99ff);
+static const float focuscolor[]            = COLOR(0xe78a4eff);
 static const float urgentcolor[]           = COLOR(0xff0000ff);
 /* This conforms to the xdg-protocol. Set the alpha to zero to restore the old behavior */
 static const float fullscreen_bg[]         = {0.1f, 0.1f, 0.1f, 1.0f}; /* You can also use glsl colors */
 
 /* tagging - TAGCOUNT must be no greater than 31 */
 #define TAGCOUNT (9)
-static int tag_layout[TAGCOUNT] = {0, 0, 0, 0, 0, 0, 0, 0, 0}; /* Modify as needed to match TAGCOUNT */
+static int tag_layout[TAGCOUNT] = {0, 0, 0, 0, 0, 0, 1, 1, 1}; /* Modify as needed to match TAGCOUNT */
 
 /* logging */
 static int log_level = WLR_ERROR;
@@ -28,6 +27,7 @@ static const Rule rules[] = {
 	/* examples: */
 	{ "Gimp_EXAMPLE",     NULL,       0,            1,           -1 }, /* Start on currently visible tags floating, not tiled */
 	{ "firefox_EXAMPLE",  NULL,       1 << 8,       0,           -1 }, /* Start on ONLY tag "9" */
+	{ "flameshot", NULL, 0, 1, -1 },
 	{ "pavucontrol", NULL, 0, 1, -1 },
 	{ "steam", "Steam", 1 << 8, 1, 0 },
 	{ "discord", NULL, 0, 0, 1 },
@@ -56,6 +56,8 @@ static const MonitorRule monrules[] = {
 	{ "eDP-1",    0.5f,  1,      2,    &layouts[0], WL_OUTPUT_TRANSFORM_NORMAL,   -1,  -1 },
 	*/
 	/* defaults */
+	{ "DP-3",     0.5f, 1,	    1,	  &layouts[0], WL_OUTPUT_TRANSFORM_NORMAL,   -1,  -1 },
+	{ "DP-2",     0.5f, 1,	    1,	  &layouts[0], WL_OUTPUT_TRANSFORM_NORMAL,   -1,  -1 },
 	{ NULL,       0.5f, 1,      1,    &layouts[0], WL_OUTPUT_TRANSFORM_NORMAL,   -1,  -1 },
 };
 
@@ -105,7 +107,7 @@ static const uint32_t send_events_mode = LIBINPUT_CONFIG_SEND_EVENTS_ENABLED;
 LIBINPUT_CONFIG_ACCEL_PROFILE_FLAT
 LIBINPUT_CONFIG_ACCEL_PROFILE_ADAPTIVE
 */
-static const enum libinput_config_accel_profile accel_profile = LIBINPUT_CONFIG_ACCEL_PROFILE_ADAPTIVE;
+static const enum libinput_config_accel_profile accel_profile = LIBINPUT_CONFIG_ACCEL_PROFILE_FLAT;
 static const double accel_speed = 0.0;
 
 /* You can choose between:
@@ -128,7 +130,7 @@ static const enum libinput_config_tap_button_map button_map = LIBINPUT_CONFIG_TA
 
 /* commands */
 static const char *termcmd[] = { "alacritty", NULL };
-static const char *menucmd[] = { "wmenu-run", NULL };
+static const char *menucmd[] = { "yofi", NULL };
 static const char *browser[] = { "thorium-browser", NULL };
 static const char *fileman[] = { "pcmanfm", NULL };
 static const char *playerctlplay[] = { "playerctl", "play-pause", NULL };
@@ -168,13 +170,13 @@ static const Key keys[] = {
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_less,       tagmon,         {.i = WLR_DIRECTION_LEFT} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_greater,    tagmon,         {.i = WLR_DIRECTION_RIGHT} },
 
-	{ MODKEY,		     XKB_KEY_s,			 spawn,		 {.v = flameshot} },
-	{ MODKEY,		     XKB_KEY_w,			 spawn,		 {.v = browser} },
-	{ MODKEY,		     XKB_KEY_e,			 spawn,		 {.v = fileman} },
-	{ MODKEY,		     XKB_KEY_XF86AudioPlay,	 spawn,		 {.v = playerctlplay} },
-	{ MODKEY,		     XKB_KEY_XF86AudioNext,	 spawn,		 {.v = playerctlnext} },
-	{ MODKEY,		     XKB_KEY_XF86AudioPrev,	 spawn,		 {.v = playerctlprev} },
-	{ MODKEY,		     XKB_KEY_g,			 spawn,		 {.v = poelogout} },
+	{ MODKEY,			XKB_KEY_s,			 spawn,		 {.v = flameshot} },
+	{ MODKEY,			XKB_KEY_w,			 spawn,		 {.v = browser} },
+	{ MODKEY|WLR_MODIFIER_SHIFT,	XKB_KEY_E,			 spawn,		 {.v = fileman} },
+	{ 0,				XKB_KEY_XF86AudioPlay,		 spawn,		 {.v = playerctlplay} },
+	{ 0,				XKB_KEY_XF86AudioNext,		 spawn,		 {.v = playerctlnext} },
+	{ 0,				XKB_KEY_XF86AudioPrev,		 spawn,		 {.v = playerctlprev} },
+	{ MODKEY,			XKB_KEY_g,			 spawn,		 {.v = poelogout} },
 
 	TAGKEYS(          XKB_KEY_1, XKB_KEY_exclam,                     0),
 	TAGKEYS(          XKB_KEY_2, XKB_KEY_at,                         1),
