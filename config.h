@@ -29,10 +29,10 @@ static const Rule rules[] = {
 	{ "firefox_EXAMPLE",  NULL,       1 << 8,       0,           -1 }, /* Start on ONLY tag "9" */
 	{ "flameshot", NULL, 0, 1, -1 },
 	{ "pavucontrol", NULL, 0, 1, -1 },
-	{ "steam", "Steam", 1 << 8, 1, 0 },
-	{ "discord", NULL, 0, 0, 1 },
-	{ "Spotify", NULL, 1 << 7, 1, 0 },
-	{ "steam_app_default", "World of Warcraft", 1 << 5, 0, 0 },
+	{ "steam", "Steam", 1 << 8, 1, 1 },
+	{ "discord", NULL, 0, 0, 0 },
+	{ "Spotify", NULL, 1 << 7, 1, 1 },
+	{ "steam_app_default", "World of Warcraft", 1 << 5, 0, 1 },
 	
 };
 
@@ -131,7 +131,7 @@ static const enum libinput_config_tap_button_map button_map = LIBINPUT_CONFIG_TA
 /* commands */
 static const char *termcmd[] = { "alacritty", NULL };
 static const char *menucmd[] = { "yofi", NULL };
-static const char *browser[] = { "thorium-browser", NULL };
+static const char *browser[] = { "firefox", NULL };
 static const char *fileman[] = { "pcmanfm", NULL };
 static const char *playerctlplay[] = { "playerctl", "play-pause", NULL };
 static const char *playerctlnext[] = { "playerctl", "next", NULL };
@@ -161,8 +161,7 @@ static const Key keys[] = {
 	{ MODKEY,                    XKB_KEY_m,          setlayout,      {.v = &layouts[2]} },
 	{ MODKEY,                    XKB_KEY_space,      setlayout,      {0} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_space,      togglefloating, {0} },
-	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_f,          togglefullscreen, {0} },
-	{ MODKEY,                    XKB_KEY_F5,         togglefullscreenadaptivesync, {0} },
+	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_F,          togglefullscreen, {0} },
 	{ MODKEY,                    XKB_KEY_0,          view,           {.ui = ~0} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_parenright, tag,            {.ui = ~0} },
 	{ MODKEY,                    XKB_KEY_comma,      focusmon,       {.i = WLR_DIRECTION_LEFT} },
