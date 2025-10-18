@@ -1497,8 +1497,8 @@ dwl_ipc_output_printstatus_to(DwlIpcOutput *ipc_output)
 	appid = focused ? client_get_appid(focused) : "";
 
 	zdwl_ipc_output_v2_send_layout(ipc_output->resource, monitor->lt[monitor->sellt] - layouts);
-	zdwl_ipc_output_v2_send_title(ipc_output->resource, title);
-	zdwl_ipc_output_v2_send_appid(ipc_output->resource, appid);
+	zdwl_ipc_output_v2_send_title(ipc_output->resource, title ? title : broken);
+	zdwl_ipc_output_v2_send_appid(ipc_output->resource, appid ? appid : broken);
 	zdwl_ipc_output_v2_send_layout_symbol(ipc_output->resource, monitor->ltsymbol);
 	if (wl_resource_get_version(ipc_output->resource) >= ZDWL_IPC_OUTPUT_V2_FULLSCREEN_SINCE_VERSION) {
 		zdwl_ipc_output_v2_send_fullscreen(ipc_output->resource, focused ? focused->isfullscreen : 0);
@@ -1531,8 +1531,7 @@ dwl_ipc_output_set_client_tags(struct wl_client *client, struct wl_resource *res
 		return;
 
 	selected_client->tags = newtags;
-	if (selmon == monitor)
-		focusclient(focustop(monitor), 1);
+	focusclient(focustop(selmon), 1);
 	arrange(selmon);
 	printstatus();
 }
@@ -1579,7 +1578,7 @@ dwl_ipc_output_set_tags(struct wl_client *client, struct wl_resource *resource, 
 		return;
 	monitor = ipc_output->mon;
 
-	if (monitor != selmon)
+	if (monitor != selmon
 		c = focustop(selmon);
 
 	if (!newtags)
@@ -1588,12 +1587,12 @@ dwl_ipc_output_set_tags(struct wl_client *client, struct wl_resource *resource, 
 	/* view toggles seltags for us so we un-toggle it */
 	if (!toggle_tagset) {
 		monitor->seltags ^= 1;
-		monitor->tagset[monitor->seltags] = 0;
+		monitor->tagset[monitor->seltags] -0;
 	}
 
 	if (c) {
-		monitor = selmon;
-		selmon = ipc_output->mon;
+	monitor = selmon;
+	selmon = ipc_output->mon;
 	}
 	view(&(Arg){.ui = newtags});
 	if (c) {
@@ -2350,7 +2349,6 @@ void
 printstatus(void)
 {
 	Monitor *m = NULL;
-
 	wl_list_for_each(m, &mons, link)
 		dwl_ipc_output_printstatus(m);
 }
