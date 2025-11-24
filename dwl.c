@@ -1578,7 +1578,7 @@ dwl_ipc_output_set_tags(struct wl_client *client, struct wl_resource *resource, 
 		return;
 	monitor = ipc_output->mon;
 
-	if (monitor != selmon
+	if (monitor != selmon)
 		c = focustop(selmon);
 
 	if (!newtags)

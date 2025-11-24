@@ -70,8 +70,8 @@ static const struct xkb_rule_names xkb_rules = {
 	.options = NULL,
 };
 
-static const int repeat_rate = 25;
-static const int repeat_delay = 600;
+static const int repeat_rate = 40;
+static const int repeat_delay = 300;
 
 /* Trackpad */
 static const int tap_to_click = 1;
@@ -130,20 +130,20 @@ static const enum libinput_config_tap_button_map button_map = LIBINPUT_CONFIG_TA
 
 /* commands */
 static const char *termcmd[] = { "alacritty", NULL };
-static const char *menucmd[] = { "yofi", NULL };
+static const char *spotify[] = { "spotify", NULL };
+static const char *menucmd[] = { "rofi", "-show", "drun", NULL };
 static const char *browser[] = { "firefox", NULL };
 static const char *fileman[] = { "pcmanfm", NULL };
 static const char *playerctlplay[] = { "playerctl", "play-pause", NULL };
 static const char *playerctlnext[] = { "playerctl", "next", NULL };
 static const char *playerctlprev[] = { "playerctl", "previous", NULL };
-static const char *flameshot[] = { "flameshot", "gui", NULL };
-static const char *poelogout[] = { "poelogout", NULL };
 
 static const Key keys[] = {
 	/* Note that Shift changes certain key codes: c -> C, 2 -> at, etc. */
 	/* modifier                  key                 function        argument */
 	{ MODKEY,                    XKB_KEY_p,          spawn,          {.v = menucmd} },
 	{ MODKEY,		     XKB_KEY_Return,     spawn,          {.v = termcmd} },
+	{ MODKEY,		     XKB_KEY_b,		 togglebar,	 {0} },
 	{ MODKEY,                    XKB_KEY_j,          focusstack,     {.i = +1} },
 	{ MODKEY,                    XKB_KEY_k,          focusstack,     {.i = -1} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_J,          movestack,      {.i = +1} },
@@ -168,13 +168,13 @@ static const Key keys[] = {
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_less,       tagmon,         {.i = WLR_DIRECTION_LEFT} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_greater,    tagmon,         {.i = WLR_DIRECTION_RIGHT} },
 
-	{ MODKEY,			XKB_KEY_s,			 spawn,		 {.v = flameshot} },
+	{ MODKEY,			XKB_KEY_s,			 spawn,		 SHCMD("grim -g \"$(slurp)\" | wl-copy") },
 	{ MODKEY,			XKB_KEY_w,			 spawn,		 {.v = browser} },
 	{ MODKEY|WLR_MODIFIER_SHIFT,	XKB_KEY_E,			 spawn,		 {.v = fileman} },
 	{ 0,				XKB_KEY_XF86AudioPlay,		 spawn,		 {.v = playerctlplay} },
 	{ 0,				XKB_KEY_XF86AudioNext,		 spawn,		 {.v = playerctlnext} },
 	{ 0,				XKB_KEY_XF86AudioPrev,		 spawn,		 {.v = playerctlprev} },
-	{ MODKEY,			XKB_KEY_g,			 spawn,		 {.v = poelogout} },
+	{ MODKEY,			XKB_KEY_g,			 spawn,		 {.v = spotify} },
 
 	TAGKEYS(          XKB_KEY_1, XKB_KEY_exclam,                     0),
 	TAGKEYS(          XKB_KEY_2, XKB_KEY_at,                         1),
